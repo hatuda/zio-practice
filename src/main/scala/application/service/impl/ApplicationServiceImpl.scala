@@ -10,9 +10,9 @@ import java.util.Date
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
   override def consoleOutput(): ZIO[Any, IOException, Unit] =
     for {
-      _ <- ZIO.die(new ArithmeticException("divide by zero"))
+      // ZIO型を返す関数へ引数を渡す段階で例外が投げられるとdefectエラーになります
       _ <- Console.printLine(
-        s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
+        s"${List.empty.head.toString} ${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
       )
     } yield ()
 }
