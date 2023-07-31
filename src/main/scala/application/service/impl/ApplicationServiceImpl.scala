@@ -8,11 +8,12 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
-  override def consoleOutput(): ZIO[Any, IOException, Unit] =
+  override def consoleOutput(): ZIO[Any, Throwable, Unit] =
     for {
-      // ZIO型を返す関数へ引数を渡す段階で例外が投げられるとdefectエラーになります
+      // ZIO.attempt内で例外が投げられるとfailureエラーになります
+      _ <- ZIO.attempt(List.empty.head.toString)
       _ <- Console.printLine(
-        s"${List.empty.head.toString} ${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
+        s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
       )
     } yield ()
 }
