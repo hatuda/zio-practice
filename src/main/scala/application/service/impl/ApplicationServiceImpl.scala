@@ -8,9 +8,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
-  override def consoleOutput(): ZIO[Any, Throwable, Unit] =
+  override def consoleOutput(): ZIO[Any, IOException, Unit] =
     for {
-      _ <- ZIO.fail(new Exception("This is a failure test."))
+      _ <- ZIO.die(new ArithmeticException("divide by zero"))
       _ <- Console.printLine(
         s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
       )

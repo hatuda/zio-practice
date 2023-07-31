@@ -18,5 +18,7 @@ object MainApp extends ZIOAppDefault {
       sdformat.parse(inpDateStr)
     }),
     ApplicationServiceImpl.layer
-  ).catchAll(failure => Console.printError("Failure:" + failure.toString))
+  ).catchAll(failure => Console.printError("Failure:" + failure.toString)).catchAllDefect(defect =>
+    Console.printError("Defect:" + defect.toString)
+  )
 }
