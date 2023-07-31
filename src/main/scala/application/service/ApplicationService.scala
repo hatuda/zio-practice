@@ -1,10 +1,6 @@
 package jp.webcrew.hands.on.zio.application.service
 import zio.ZIO
 
-import java.io.IOException
-
-import java.io.IOException
-
 trait ApplicationService {
   def consoleOutput(): ZIO[Any, Throwable, Unit]
 }

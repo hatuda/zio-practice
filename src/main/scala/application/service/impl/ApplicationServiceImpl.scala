@@ -10,8 +10,12 @@ import java.util.Date
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
   override def consoleOutput(): ZIO[Any, Throwable, Unit] =
     for {
-      // ZIO.attempt内で例外が投げられるとfailureエラーになります
-      _ <- ZIO.attempt(List.empty.head.toString)
+      _ <- ZIO
+        .attempt(
+          throw new StackOverflowError(
+            "The call stack pointer exceeds the stack bound."
+          )
+        )
       _ <- Console.printLine(
         s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
       )
