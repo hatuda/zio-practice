@@ -5,15 +5,18 @@ import application.service.impl.ApplicationServiceImpl
 import zio.*
 
 object MainApp extends ZIOAppDefault {
-  def run: ZIO[Any, Throwable, Unit] = ApplicationService.consoleOutput().provide(ZLayer.fromZIO(ZIO.attempt {
-    import java.text.SimpleDateFormat
-    // 任意の日付文字列
-    val inpDateStr = "2023/07/25 17:46:00"
+  def run: ZIO[Any, Throwable, Unit] = ApplicationService.consoleOutput().provide(
+    ZLayer.fromZIO(ZIO.attempt {
+      import java.text.SimpleDateFormat
+      // 任意の日付文字列
+      val inpDateStr = "2023/07/25 17:46:00"
 
-    // 取り扱う日付の形にフォーマット設定
-    val sdformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+      // 取り扱う日付の形にフォーマット設定
+      val sdformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
 
-    // Date型に変換( DateFromatクラスのparse() )
-    sdformat.parse(inpDateStr)
-  }), ApplicationServiceImpl.layer)
+      // Date型に変換( DateFromatクラスのparse() )
+      sdformat.parse(inpDateStr)
+    }),
+    ApplicationServiceImpl.layer
+  ).catchAll(failure => Console.printError("Failure:" + failure.toString))
 }

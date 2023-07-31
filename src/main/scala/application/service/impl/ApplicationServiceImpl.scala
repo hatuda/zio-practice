@@ -9,9 +9,12 @@ import java.util.Date
 
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
   override def consoleOutput(): ZIO[Any, Throwable, Unit] =
-    Console.printLine(
-      s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
-    )
+    for {
+      _ <- ZIO.fail(new Exception("This is a failure test."))
+      _ <- Console.printLine(
+        s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
+      )
+    } yield ()
 }
 
 object ApplicationServiceImpl {
@@ -22,4 +25,3 @@ object ApplicationServiceImpl {
       } yield ApplicationServiceImpl(currentDate)
     }
 }
-
