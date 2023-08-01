@@ -8,3 +8,12 @@ lazy val root = (project in file("."))
     idePackagePrefix := Some("jp.webcrew.hands.on.zio"),
     libraryDependencies ++= Seq("dev.zio" %% "zio" % "2.0.13")
   )
+
+ThisBuild / assemblyMergeStrategy := {
+  case PathList(ps @ _*) if ps.last == "module-info.class" =>
+    MergeStrategy.discard
+  case PathList("io", "getquill", xs @ _*) => MergeStrategy.first
+  case x =>
+    val oldStrategy = (ThisBuild / assemblyMergeStrategy).value
+    oldStrategy(x)
+}
