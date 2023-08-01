@@ -1,0 +1,5 @@
+version: '3.5'
+services:
+  zio:
+    build: .
+    command: java -jar zio-hands-on.jar
