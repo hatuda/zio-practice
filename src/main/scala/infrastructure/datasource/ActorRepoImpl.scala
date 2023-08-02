@@ -6,7 +6,6 @@ import domain.repository.ActorRepo
 import infrastructure.config.MySQLContext
 
 import io.getquill.*
-import io.getquill.jdbczio.Quill
 import zio.*
 
 import java.sql.SQLException
