@@ -10,8 +10,6 @@ services:
   sakilamysql:
     build: ./mysql-test
     container_name: "sakilamysql"
-    ports:
-      - "3306:3306"
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u sakila --password=sakila
       start_period: 5s
