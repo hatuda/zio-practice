@@ -13,8 +13,8 @@ case class ApplicationServiceImpl(currentDate: Date, actorRepo: ActorRepo) exten
       _ <- Console.printLine(
         s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
       )
-      actors <- actorRepo.getActor
-      _      <- Console.printLine("The head actor:" + actors.head.toString)
+      filmActors <- actorRepo.getFilmActor
+      _      <- Console.printLine("The head actor:" + filmActors.head.toString)
     } yield ()
 }
 

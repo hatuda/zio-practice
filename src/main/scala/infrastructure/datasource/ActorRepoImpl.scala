@@ -1,7 +1,7 @@
 package jp.webcrew.hands.on.zio
 package infrastructure.datasource
 
-import domain.model.Actor
+import domain.model.{Actor, FilmActor}
 import domain.repository.ActorRepo
 import infrastructure.config.MySQLContext
 
@@ -17,6 +17,12 @@ object ActorRepoImpl {
 
 final case class ActorRepoImpl(ctx: MySQLContext) extends ActorRepo {
   import ctx.q.*
-  def getActor: ZIO[Any, SQLException, List[Actor]] =
-    run(quote(query[Actor].sortBy(a => a.actorId)))
+  def getFilmActor: ZIO[Any, SQLException, List[(Actor,FilmActor)]] =
+    // テーブル結合例
+    run(quote {
+      for {
+        actor     <- query[Actor]
+        filmActor <- query[FilmActor].join(fa => fa.actorId == actor.actorId)
+      } yield (actor,filmActor)
+    })
 }

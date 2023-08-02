@@ -1,15 +1,17 @@
 package jp.webcrew.hands.on.zio
 package domain.repository
 
-import domain.model.Actor
-import zio._
+import domain.model.{Actor, FilmActor}
+
+import zio.*
+
 import java.sql.SQLException
 
 trait ActorRepo {
-  def getActor: ZIO[Any, SQLException, List[Actor]]
+  def getFilmActor: ZIO[Any, SQLException, List[(Actor,FilmActor)]]
 }
 
 object ActorRepo {
-  def getActor: ZIO[ActorRepo, SQLException, List[Actor]] =
-    ZIO.serviceWithZIO[ActorRepo](_.getActor)
+  def getFilmActor: ZIO[ActorRepo, SQLException, List[(Actor,FilmActor)]] =
+    ZIO.serviceWithZIO[ActorRepo](_.getFilmActor)
 }
