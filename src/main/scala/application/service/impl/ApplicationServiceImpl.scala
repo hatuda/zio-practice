@@ -4,7 +4,6 @@ import jp.webcrew.hands.on.zio.application.service.ApplicationService
 import jp.webcrew.hands.on.zio.domain.repository.ActorRepo
 import zio.{Console, ZIO, ZLayer}
 
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 
