@@ -2,18 +2,30 @@ package jp.webcrew.hands.on.zio
 
 import application.service.ApplicationService
 import application.service.impl.ApplicationServiceImpl
+
 import zio.*
 
+import java.text.SimpleDateFormat
+import java.util.Date
+
 object MainApp extends ZIOAppDefault {
-  def run: ZIO[Any, Throwable, Unit] = ApplicationService.consoleOutput().provide(ZLayer.fromZIO(ZIO.attempt {
+  def run: ZIO[Any, Throwable, Unit] = {
     import java.text.SimpleDateFormat
     // 任意の日付文字列
     val inpDateStr = "2023/07/25 17:46:00"
-
     // 取り扱う日付の形にフォーマット設定
     val sdformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-
     // Date型に変換( DateFromatクラスのparse() )
-    sdformat.parse(inpDateStr)
-  }), ApplicationServiceImpl.layer)
+    val date = sdformat.parse(inpDateStr)
+    for {
+      _ <- consoleOutput(date)
+    } yield ()
+  }.catchAllCause(Console.printLine(_))
+
+  def consoleOutput(date: Date): ZIO[Any, Throwable, Unit] =
+    for {
+      _ <- Console.printLine(
+        s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date)} Hello, World!"
+      )
+    } yield ()
 }
