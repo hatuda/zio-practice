@@ -1,13 +1,15 @@
 package jp.webcrew.hands.on.zio.application.service
 import zio.ZIO
+import zio.http.Response
 
 import java.io.IOException
 
 trait ApplicationService {
-  def consoleOutput(): ZIO[Any, Throwable, Unit]
+  def getTest: ZIO[Any, Throwable, Response]
 }
 
 object ApplicationService {
-  def consoleOutput(): ZIO[ApplicationService, Throwable, Unit] =
-    ZIO.serviceWithZIO[ApplicationService](_.consoleOutput())
+  def getTest: ZIO[ApplicationService, Throwable, Response] = {
+    ZIO.serviceWithZIO[ApplicationService](_.getTest)
+  }
 }
