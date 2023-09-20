@@ -9,6 +9,7 @@ import java.util.Date
 
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
   override def consoleOutput(): ZIO[Any, Throwable, Unit] = for {
+    // 以下に関して警告が表示されるかもしれませんが、動作確認が主目的のため一旦無視します。
     _ <- ZIO.foreach(List.range(1, 100))(n => Console.printLine(n))
   } yield ()
 }
