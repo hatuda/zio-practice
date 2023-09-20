@@ -8,10 +8,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 case class ApplicationServiceImpl(currentDate: Date) extends ApplicationService {
-  override def consoleOutput(): ZIO[Any, Throwable, Unit] =
-    Console.printLine(
+  override def consoleOutput(): ZIO[Any, Throwable, Unit] = for {
+    fiber <- (for {
+      _ <- ZIO.attempt(Thread.sleep(3000))
+      _ <- Console.printLine("並列処理実行")
+    } yield ()).fork
+    _ <- Console.printLine(
       s"${new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(currentDate)} Hello, World!"
     )
+    _ <- fiber.join
+  } yield ()
 }
 
 object ApplicationServiceImpl {
@@ -22,4 +28,3 @@ object ApplicationServiceImpl {
       } yield ApplicationServiceImpl(currentDate)
     }
 }
-
