@@ -1,8 +1,8 @@
 package jp.webcrew.hands.on.zio
 
 import io.netty.handler.codec.http.HttpHeaderNames
-import jp.webcrew.hands.on.zio.application.service.impl.ApplicationServiceImpl
-import jp.webcrew.hands.on.zio.presentation.controller.TestController
+import application.service.impl.ApplicationServiceImpl
+import presentation.controller.TestController
 import zio.*
 import zio.http.*
 
@@ -16,6 +16,7 @@ object MainApp extends ZIOAppDefault {
       })
       .provide(
         Server.default,
-        ApplicationServiceImpl.layer
+        ApplicationServiceImpl.layer,
+        Client.default
       )
 }
