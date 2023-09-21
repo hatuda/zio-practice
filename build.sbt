@@ -4,7 +4,7 @@ ThisBuild / scalaVersion := "3.3.0"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "zio-hands-on",
-    idePackagePrefix := Some("jp.webcrew.hands.on.zio"),
-    libraryDependencies ++= Seq("dev.zio" %% "zio" % "2.0.13")
+    name                             := "zio-hands-on",
+    idePackagePrefix                 := Some("jp.webcrew.hands.on.zio"),
+    libraryDependencies += "dev.zio" %% "zio-http" % "3.0.0-RC2"
   )

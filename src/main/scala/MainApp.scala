@@ -1,19 +1,21 @@
 package jp.webcrew.hands.on.zio
 
-import application.service.ApplicationService
-import application.service.impl.ApplicationServiceImpl
+import io.netty.handler.codec.http.HttpHeaderNames
+import jp.webcrew.hands.on.zio.application.service.impl.ApplicationServiceImpl
+import jp.webcrew.hands.on.zio.presentation.controller.TestController
 import zio.*
+import zio.http.*
 
 object MainApp extends ZIOAppDefault {
-  def run: ZIO[Any, Throwable, Unit] = ApplicationService.consoleOutput().provide(ZLayer.fromZIO(ZIO.attempt {
-    import java.text.SimpleDateFormat
-    // 任意の日付文字列
-    val inpDateStr = "2023/07/25 17:46:00"
 
-    // 取り扱う日付の形にフォーマット設定
-    val sdformat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-
-    // Date型に変換( DateFromatクラスのparse() )
-    sdformat.parse(inpDateStr)
-  }), ApplicationServiceImpl.layer)
+  override val run: ZIO[Any, Throwable, Nothing] =
+    Server
+      .serve(TestController().catchAllCauseZIO { _ =>
+        // エラー処理
+        ZIO.succeed(Response(status = Status.InternalServerError))
+      })
+      .provide(
+        Server.default,
+        ApplicationServiceImpl.layer
+      )
 }
