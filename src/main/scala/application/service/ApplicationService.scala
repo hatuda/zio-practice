@@ -7,6 +7,8 @@ import java.io.IOException
 trait ApplicationService {
   def getTest: ZIO[Any, Throwable, Response]
   def postTest(request: Request): ZIO[Any, Throwable, Response]
+  def setCookie: ZIO[Any, Throwable, Response]
+  def getCookie(request: Request): ZIO[Any, Throwable, Response]
 }
 
 object ApplicationService {
@@ -16,5 +18,12 @@ object ApplicationService {
 
   def postTest(request: Request): ZIO[ApplicationService, Throwable, Response] = {
     ZIO.serviceWithZIO[ApplicationService](_.postTest(request))
+  }
+
+  def setCookie: ZIO[ApplicationService, Throwable, Response] = {
+    ZIO.serviceWithZIO[ApplicationService](_.setCookie)
+  }
+  def getCookie(request: Request): ZIO[ApplicationService, Throwable, Response] = {
+    ZIO.serviceWithZIO[ApplicationService](_.getCookie(request))
   }
 }

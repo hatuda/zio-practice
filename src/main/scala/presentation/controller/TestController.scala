@@ -7,5 +7,7 @@ object TestController {
   def apply(): Http[ApplicationService, Throwable, Request, Response] = Http.collectZIO[Request] {
     case Method.GET -> Root / "text"            => ApplicationService.getTest
     case req @ Method.POST -> Root / "postTest" => ApplicationService.postTest(req)
+    case Method.GET -> Root / "setCookie"       => ApplicationService.setCookie
+    case req @ Method.GET -> Root / "getCookie" => ApplicationService.getCookie(req)
   }
 }
