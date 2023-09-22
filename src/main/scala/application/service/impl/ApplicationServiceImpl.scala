@@ -44,6 +44,21 @@ case class ApplicationServiceImpl(client: Client) extends ApplicationService {
     )
     data <- res.body.asString
   } yield Response.text(s"http://localhost:8080/text:$data")
+
+  override def postApi(param:String): ZIO[Any, Throwable, Response] = for{
+    uri <- ZIO.fromEither(URL.decode("http://localhost:8080/postTest"))
+    res <- client.request(
+      Request
+        .default(
+          Method.POST,
+          uri,
+          Body.fromString(
+            s"userName=$param"
+          )
+        )
+    )
+    data <- res.body.asString
+  } yield Response.text(s"http://localhost:8080/postTest:$data").setHeaders(Headers("Content-Type", "text/plain;charset=UTF-8")) // 文字化け対策をしています
 }
 object ApplicationServiceImpl {
   val layer: ZLayer[Client, Nothing, ApplicationService] =

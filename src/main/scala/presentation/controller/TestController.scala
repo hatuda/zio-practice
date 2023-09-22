@@ -10,5 +10,6 @@ object TestController {
     case Method.GET -> Root / "setCookie"       => ApplicationService.setCookie()
     case req @ Method.GET -> Root / "getCookie" => ApplicationService.getCookie(req)
     case Method.GET -> Root / "getApi"          => ApplicationService.getApi
+    case Method.GET -> Root / "postApi" / test       => ApplicationService.postApi(test)
   }
 }

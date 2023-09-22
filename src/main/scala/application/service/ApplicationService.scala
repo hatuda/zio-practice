@@ -10,6 +10,7 @@ trait ApplicationService {
   def setCookie(): ZIO[Any, Throwable, Response]
   def getCookie(request: Request): ZIO[Any, Throwable, Response]
   def getApi: ZIO[Any, Throwable, Response]
+  def postApi(param:String): ZIO[Any, Throwable, Response]
 }
 
 object ApplicationService {
@@ -30,5 +31,9 @@ object ApplicationService {
 
   def getApi: ZIO[ApplicationService, Throwable, Response] = {
     ZIO.serviceWithZIO[ApplicationService](_.getApi)
+  }
+
+  def postApi(param:String): ZIO[ApplicationService, Throwable, Response] = {
+    ZIO.serviceWithZIO[ApplicationService](_.postApi(param))
   }
 }
