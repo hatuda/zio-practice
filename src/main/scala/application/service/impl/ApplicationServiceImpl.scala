@@ -30,7 +30,7 @@ case class ApplicationServiceImpl(client: Client) extends ApplicationService {
       case Some(ck) => ck.value.toChunk.mkString("")
       case _ => "先にsetCookieをよびだしてください"}
     _ <- Console.printLine("cookie:"+cookie)
-  } yield Response.text(cookie).setHeaders(Headers("Content-Type", "text/plain;charset=UTF-8")) // 文字化け対策をしています
+  } yield Response.text(cookie)
 
   override def getApi: ZIO[Any, Throwable, Response] = for{
     uri <- ZIO.fromEither(URL.decode("http://localhost:8080/text"))
@@ -58,7 +58,7 @@ case class ApplicationServiceImpl(client: Client) extends ApplicationService {
         )
     )
     data <- res.body.asString
-  } yield Response.text(s"http://localhost:8080/postTest:$data").setHeaders(Headers("Content-Type", "text/plain;charset=UTF-8")) // 文字化け対策をしています
+  } yield Response.text(s"http://localhost:8080/postTest:$data")
 }
 object ApplicationServiceImpl {
   val layer: ZLayer[Client, Nothing, ApplicationService] =

@@ -10,7 +10,7 @@ object MainApp extends ZIOAppDefault {
 
   override val run: ZIO[Any, Throwable, Nothing] =
     Server
-      .serve(TestController().catchAllCauseZIO { _ =>
+      .serve((TestController() @@ HttpAppMiddleware.addHeader("Content-Type", "text/html;charset=UTF-8")).catchAllCauseZIO { _ =>
         // エラー処理
         ZIO.succeed(Response(status = Status.InternalServerError))
       })
