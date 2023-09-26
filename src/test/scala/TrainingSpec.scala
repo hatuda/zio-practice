@@ -13,7 +13,7 @@ object TrainingSpec extends ZIOSpecDefault {
       for {
         test <- ZIO.succeed("test")
         uri  <- ZIO.fromEither(URL.decode("http://localhost:8080/postTest"))
-        res <- ApplicationService.postTest(
+        req <- ZIO.attempt(
           Request
             .default(
               Method.POST,
@@ -23,6 +23,7 @@ object TrainingSpec extends ZIOSpecDefault {
               )
             )
         )
+        res <- ApplicationService.postTest(req)
         bodyString <- res.body.asString
       } yield assertTrue(bodyString == s"あなたの名前は${test}です。")
     }.provide(ApplicationServiceImpl.layer, Client.default)
