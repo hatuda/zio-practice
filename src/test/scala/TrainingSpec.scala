@@ -8,8 +8,8 @@ import zio.test.*
 import zio.test.Assertion.*
 
 object TrainingSpec extends ZIOSpecDefault {
-  def spec: Spec[Any, Throwable] = suite("HelloWorldSpec")(
-    test("sayHello correctly displays output") {
+  def spec: Spec[Any, Throwable] = suite("単体テストトレーニング")(
+    test("「postTest」が正しい値を返す") {
       for {
         test <- ZIO.succeed("test")
         uri  <- ZIO.fromEither(URL.decode("http://localhost:8080/postTest"))
